@@ -23,12 +23,12 @@ const checkedItemIdsList: string[] = []
 console.log('🟢 Script iniciado')
 bot.telegram.sendMessage(telIdReceiver, '🟢 Script iniciado')
 
-// Tarefa que sera executada pelo cron
-async function task() {
+// Busca os itens no tradeit e manda mensagem para o telegram
+async function findItems(groupId: string) {
     console.log('🔄 Checando novos itens...')
 
-    // Busca pela skin: ★ Moto Gloves | Finish Line (Field-Tested)
-    const itens = await tradeitFindItemsByGroupId('329770')
+    // Busca pela skin referente ao groupId do tradeit
+    const itens = await tradeitFindItemsByGroupId(groupId)
 
     const newItens: TradeitItem[] = []
 
@@ -51,6 +51,12 @@ async function task() {
             parse_mode: 'HTML',
         })
     }
+}
+
+// Tarefa que sera executada pelo cron
+async function task() {
+    await findItems('329770') // ★ Moto Gloves | Finish Line (Field-Tested)
+    await findItems('329519') // ★ Specialist Gloves | Lt. Commander (Field-Tested)
 }
 
 // Executa a tarefa pela primeira vez

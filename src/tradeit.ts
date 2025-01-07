@@ -33,6 +33,7 @@ export async function tradeitFindItemsByGroupId(groupId: string): Promise<Tradei
 
         return request.data.items
     } catch {
+        console.error('🔴 Erro ao buscar itens no tradeit')
         return []
     }
 }
